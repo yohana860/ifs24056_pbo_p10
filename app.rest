@@ -1,0 +1,60 @@
+## Global Variables
+@BaseUrl = http://localhost:8080/api
+@email = test@delcom.org
+@password = test123456
+
+## Authentication
+## ---------------------------------
+
+# @name PostRegister
+POST {{BaseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "name": "Abdullah Ubaid",
+    "email": "{{email}}",
+    "password": "{{password}}"
+}
+###
+
+# @name PostLogin
+POST {{BaseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}"
+}
+###
+
+@bearerToken = Bearer {{PostLogin.response.body.data.authToken}}
+
+## Users
+## ---------------------------------
+
+# @name GetMe
+GET {{BaseUrl}}/users/me
+Authorization: {{bearerToken}}
+###
+
+# @name PutUpdateUser
+PUT {{BaseUrl}}/users/me
+Authorization: {{bearerToken}}
+Content-Type: application/json
+
+{
+    "name": "Abdullah Ubaid Updated",
+    "email": "{{email}}"
+}
+###
+
+# @name PutUpdateUserPassword
+PUT {{BaseUrl}}/users/me/password
+Authorization: {{bearerToken}}
+Content-Type: application/json
+
+{
+    "password": "{{password}}",
+    "newPassword": "{{password}}"
+}
+###
